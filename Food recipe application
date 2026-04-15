@@ -1,0 +1,308 @@
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  Button,
+  Row,
+  Col,
+  Card,
+} from "react-bootstrap";
+
+/* 🌄 Layout */
+const pageStyle = {
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  backgroundImage:
+    "url('https://images.unsplash.com/photo-1490645935967-10de6ba17061')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  color: "white",
+};
+
+const contentStyle = { flex: 1 };
+
+/* 🔻 Footer */
+const Footer = () => (
+  <div style={{ textAlign: "center", padding: "10px", background: "#000" }}>
+    © Sukriti Singh
+  </div>
+);
+
+/* 🔷 Navbar */
+const NavBar = () => (
+  <Navbar bg="dark" variant="dark">
+    <Container>
+      <Navbar.Brand>🍴 Recipe App</Navbar.Brand>
+      <Nav className="ms-auto">
+        <Nav.Link as={Link} to="/">Home</Nav.Link>
+        <Nav.Link as={Link} to="/about">About</Nav.Link>
+        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+        <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+      </Nav>
+    </Container>
+  </Navbar>
+);
+
+/* 🏠 Home */
+const Home = () => (
+  <div style={pageStyle}>
+    <div style={contentStyle}>
+      <Container className="pt-5">
+        <h1>Welcome 🍲</h1>
+        <p>Explore sweets, spicy, salad, Chinese & Indian recipes easily.</p>
+      </Container>
+    </div>
+    <Footer />
+  </div>
+);
+
+/* ℹ️ About */
+const About = () => (
+  <div style={pageStyle}>
+    <div style={contentStyle}>
+      <Container className="pt-5">
+        <h2>About</h2>
+        <p>This app helps you find and cook tasty recipes.</p>
+      </Container>
+    </div>
+    <Footer />
+  </div>
+);
+
+/* 🔐 Signup */
+const Signup = ({ setUser }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSignup = () => {
+    setUser({ email, password });
+    alert("Signup successful!");
+    navigate("/login");
+  };
+
+  return (
+    <div style={pageStyle}>
+      <div style={contentStyle}>
+        <Container className="pt-5">
+          <h2>Signup</h2>
+          <Form>
+            <Form.Control
+              className="mb-2"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Form.Control
+              className="mb-2"
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button onClick={handleSignup}>Signup</Button>
+          </Form>
+        </Container>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+/* 🔓 Login */
+const Login = ({ user }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    if (user && email === user.email && password === user.password) {
+      navigate("/recipes");
+    } else {
+      alert("Invalid credentials");
+    }
+  };
+
+  return (
+    <div style={pageStyle}>
+      <div style={contentStyle}>
+        <Container className="pt-5">
+          <h2>Login</h2>
+          <Form>
+            <Form.Control
+              className="mb-2"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Form.Control
+              className="mb-2"
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button onClick={handleLogin}>Login</Button>
+          </Form>
+        </Container>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+/* 🍽️ Recipe Data */
+const recipesData = {
+  sweets: [
+    { name: "Gulab Jamun", ingredients: "Milk, Sugar", steps: "Fry and soak" },
+    { name: "Rasgulla", ingredients: "Paneer, Sugar", steps: "Boil" },
+    { name: "Ladoo", ingredients: "Besan", steps: "Roll" },
+    { name: "Barfi", ingredients: "Milk", steps: "Set" },
+    { name: "Kheer", ingredients: "Rice", steps: "Boil" },
+    { name: "Jalebi", ingredients: "Flour", steps: "Fry" },
+    { name: "Halwa", ingredients: "Suji", steps: "Cook" },
+    { name: "Peda", ingredients: "Milk", steps: "Shape" },
+    { name: "Sandesh", ingredients: "Paneer", steps: "Mix" },
+    { name: "Mysore Pak", ingredients: "Flour", steps: "Cook" },
+  ],
+  spicy: [
+    { name: "Chilli Paneer", ingredients: "Paneer", steps: "Fry" },
+    { name: "Spicy Chicken", ingredients: "Chicken", steps: "Cook" },
+    { name: "Hot Wings", ingredients: "Chicken", steps: "Fry" },
+    { name: "Spicy Noodles", ingredients: "Noodles", steps: "Cook" },
+    { name: "Manchurian", ingredients: "Veg", steps: "Cook" },
+    { name: "Paneer Tikka", ingredients: "Paneer", steps: "Grill" },
+    { name: "Spicy Curry", ingredients: "Spices", steps: "Cook" },
+    { name: "Tandoori", ingredients: "Chicken", steps: "Roast" },
+    { name: "Spicy Soup", ingredients: "Veg", steps: "Boil" },
+    { name: "Chilli Potato", ingredients: "Potato", steps: "Fry" },
+  ],
+  salad: [
+    { name: "Greek Salad", ingredients: "Veg", steps: "Mix" },
+    { name: "Fruit Salad", ingredients: "Fruits", steps: "Cut" },
+    { name: "Veg Salad", ingredients: "Veg", steps: "Mix" },
+    { name: "Caesar Salad", ingredients: "Lettuce", steps: "Mix" },
+    { name: "Pasta Salad", ingredients: "Pasta", steps: "Mix" },
+    { name: "Sprout Salad", ingredients: "Sprouts", steps: "Mix" },
+    { name: "Cucumber Salad", ingredients: "Cucumber", steps: "Slice" },
+    { name: "Corn Salad", ingredients: "Corn", steps: "Mix" },
+    { name: "Chickpea Salad", ingredients: "Chickpea", steps: "Mix" },
+    { name: "Avocado Salad", ingredients: "Avocado", steps: "Mix" },
+  ],
+  chinese: [
+    { name: "Fried Rice", ingredients: "Rice", steps: "Fry" },
+    { name: "Noodles", ingredients: "Noodles", steps: "Cook" },
+    { name: "Spring Rolls", ingredients: "Veg", steps: "Roll" },
+    { name: "Manchurian", ingredients: "Veg", steps: "Cook" },
+    { name: "Dim Sum", ingredients: "Dough", steps: "Steam" },
+    { name: "Chow Mein", ingredients: "Noodles", steps: "Cook" },
+    { name: "Soup", ingredients: "Veg", steps: "Boil" },
+    { name: "Chilli Chicken", ingredients: "Chicken", steps: "Cook" },
+    { name: "Sweet Sour", ingredients: "Sauce", steps: "Mix" },
+    { name: "Wonton", ingredients: "Dough", steps: "Fry" },
+  ],
+  indian: [
+    { name: "Butter Chicken", ingredients: "Chicken", steps: "Cook" },
+    { name: "Dal Makhani", ingredients: "Dal", steps: "Slow cook" },
+    { name: "Biryani", ingredients: "Rice", steps: "Layer" },
+    { name: "Paneer Masala", ingredients: "Paneer", steps: "Cook" },
+    { name: "Rajma", ingredients: "Beans", steps: "Boil" },
+    { name: "Chole", ingredients: "Chickpeas", steps: "Cook" },
+    { name: "Aloo Gobi", ingredients: "Veg", steps: "Cook" },
+    { name: "Kadhi", ingredients: "Curd", steps: "Boil" },
+    { name: "Pulao", ingredients: "Rice", steps: "Cook" },
+    { name: "Roti Sabzi", ingredients: "Wheat", steps: "Cook" },
+  ],
+};
+
+const Recipes = () => {
+  const [category, setCategory] = useState("sweets");
+  const [search, setSearch] = useState("");
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const filtered = recipesData[category].filter((r) =>
+    r.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const toggle = (i) => {
+    setActiveIndex(activeIndex === i ? null : i);
+  };
+
+  return (
+    <div style={pageStyle}>
+      <div style={contentStyle}>
+        <Container className="pt-4">
+          <h2>Find Recipes 🔍</h2>
+
+          <Form.Control
+            className="mb-3"
+            placeholder="Find recipes..."
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <div className="mb-3">
+            {Object.keys(recipesData).map((cat) => (
+              <Button
+                key={cat}
+                className="me-2 mb-2"
+                onClick={() => {
+                  setCategory(cat);
+                  setActiveIndex(null);
+                }}
+              >
+                {cat}
+              </Button>
+            ))}
+          </div>
+
+          <Row>
+            {filtered.map((item, i) => (
+              <Col md={4} key={i} className="mb-3">
+                <Card
+                  onClick={() => toggle(i)}
+                  style={{ cursor: "pointer" }}
+                  className="shadow"
+                >
+                  <Card.Body>
+                    <Card.Title>{item.name}</Card.Title>
+
+                    {activeIndex === i && (
+                      <Card.Text>
+                        <b>Ingredients:</b> {item.ingredients} <br />
+                        <b>Steps:</b> {item.steps}
+                      </Card.Text>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+export default function App() {
+  const [user, setUser] = useState(null);
+
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/signup" element={<Signup setUser={setUser} />} />
+        <Route path="/login" element={<Login user={user} />} />
+        <Route path="/recipes" element={<Recipes />} />
+      </Routes>
+    </Router>
+  );
+}
